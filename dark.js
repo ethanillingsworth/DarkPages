@@ -13,6 +13,8 @@ function giveHeadingIds(headingType) {
     })
 }
 
+console.log(window.location.href)
+
 fetch(window.location.href + "/README.md")
     .then(async (res) => {
         content.innerHTML = marked.parse(await res.text())
