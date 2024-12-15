@@ -13,7 +13,7 @@ function giveHeadingIds(headingType) {
     })
 }
 
-fetch("./README.md")
+fetch("/README.md")
     .then(async (res) => {
         content.innerHTML = marked.parse(await res.text())
 
