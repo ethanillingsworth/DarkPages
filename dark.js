@@ -11,6 +11,8 @@ function giveHeadingIds(headingType) {
     })
 }
 
+console.log("This site is running DarkPagesMD v1.0.1 https://github.com/ethanillingsworth/DarkPagesMD")
+
 export class DarkPages {
     static tabList = []
 
