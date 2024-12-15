@@ -5,28 +5,74 @@ import hljs from 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/es/
 const content = document.createElement("div")
 content.id = "content"
 
-document.body.append(content)
-
 function giveHeadingIds(headingType) {
     document.querySelectorAll(headingType).forEach((h) => {
         h.id = h.innerText.replaceAll(" ", "-").replaceAll("'", "").toLowerCase()
     })
 }
 
-console.log(window.location.href)
+export class DarkPages {
+    static tabList = []
 
-fetch(window.location.href + "/README.md")
-    .then(async (res) => {
-        content.innerHTML = marked.parse(await res.text())
+    static init() {
+        const tabL = document.createElement("div")
+        tabL.id = "tabList"
 
-        document.title = document.querySelector("h1").innerText
+        document.body.append(tabL)
+        document.body.append(content)
+        this.fetchPage()
+    }
 
-        const headingTypes = ["h1", "h2", "h3", "h4", "h5", "h6"]
+    static addTab(text, pathToMd) {
+        this.tabList.push({ text: text, href: pathToMd })
+        this.refreshTabList()
+    }
 
-        headingTypes.forEach((heading) => {
-            giveHeadingIds(heading)
+    static refreshTabList() {
+        const tabL = document.getElementById("tabList")
+
+        tabL.innerHTML = ""
+
+        this.tabList.forEach((tab) => {
+            const t = document.createElement("a")
+            t.innerText = tab.text
+            t.href = tab.href
+
+            tabL.append(t)
         })
+    }
 
-        hljs.highlightAll();
+    static fetchPage() {
+        let file = window.location.href.replace(".html", ".md")
 
-    }) 
+        // if not an md file assume README.md
+        if (window.location.href.endsWith("index.html")) {
+            file = "../README.md"
+        }
+
+        if (!window.location.href.endsWith(".html")) {
+            file = window.location.href + "/README.md"
+        }
+
+
+        fetch(file)
+            .then(async (res) => {
+                content.innerHTML = marked.parse(await res.text())
+
+                if (document.querySelector("h1")) {
+
+                    document.title = document.querySelector("h1").innerText
+                }
+
+                const headingTypes = ["h1", "h2", "h3", "h4", "h5", "h6"]
+
+                headingTypes.forEach((heading) => {
+                    giveHeadingIds(heading)
+                })
+
+                hljs.highlightAll();
+
+            })
+    }
+
+}
