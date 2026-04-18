@@ -1,14 +1,13 @@
 import { useEffect } from "react";
-import "./App.css";
-import sampleMarkdown from "./sample.md";
 
-// import MarkdownPage from "darkpages";
+import { MarkdownPage } from "darkpages";
+import "darkpages/themes/default.css";
 
 function App() {
-    useEffect(() => {
-        document.title = "DarkPages Test";
-    }, []);
-    return <>{/* <MarkdownPage filePath={sampleMarkdown}></MarkdownPage> */}</>;
+	useEffect(() => {
+		document.title = "DarkPages Test";
+	}, []);
+	return <>{<MarkdownPage filePath="./sample.md"></MarkdownPage>}</>;
 }
 
 export default App;

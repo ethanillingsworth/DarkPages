@@ -1,0 +1,141 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap"); */
+
+@import "tailwindcss";
+
+@import "highlight.js/styles/atom-one-dark.min.css";
+
+/* Defines defaults which can be modified to make more themes */
+@theme {
+	/* --font-sans: "Geist";
+	--font-mono: "Geist Mono"; */
+	--color-darkpages-bg: var(--color-zinc-900);
+	--color-darkpages-foreground: var(--color-zinc-800);
+	--color-darkpages-text: var(--color-zinc-300);
+	--color-darkpages-heading: var(--color-zinc-50);
+	--color-darkpages-link: var(--color-indigo-500);
+	--color-darkpages-link-visited: var(--color-violet-500);
+	--color-darkpages-accent: var(--color-slate-400);
+}
+
+@layer base {
+	.md {
+		@apply w-dvw h-dvh flex place-content-center overflow-hidden bg-darkpages-bg text-darkpages-text;
+
+		.inner {
+			@apply max-w-4xl w-full p-5 md:p-10 h-full overflow-auto;
+
+			.katex-display {
+				@apply w-fit block;
+			}
+
+			.katex {
+				@apply text-darkpages-heading;
+
+				.katex-html {
+					@apply hidden;
+				}
+			}
+
+			* {
+				@apply my-1 scheme-only-dark font-sans;
+			}
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				@apply text-darkpages-heading border-darkpages-foreground font-semibold;
+			}
+
+			ul {
+				@apply list-disc list-item;
+			}
+
+			ol {
+				@apply list-decimal;
+			}
+
+			ul,
+			ol {
+				@apply list-inside flex flex-col;
+
+				ul,
+				ol {
+					@apply pl-4 m-0;
+				}
+			}
+
+			li {
+				@apply marker:font-bold has-[input]:list-none;
+
+				p {
+					@apply m-0 w-fit inline;
+				}
+			}
+
+			pre,
+			blockquote {
+				@apply rounded;
+			}
+
+			blockquote {
+				@apply text-darkpages-text bg-darkpages-foreground/50! p-2;
+			}
+
+			pre code {
+				@apply text-darkpages-text bg-darkpages-foreground/50!;
+			}
+
+			code {
+				@apply text-darkpages-accent bg-darkpages-accent/25 p-0.5 rounded font-mono;
+
+				> * {
+					@apply m-0;
+				}
+			}
+
+			strong,
+			b {
+				@apply font-bold;
+			}
+
+			table {
+				@apply block rounded border w-fit max-w-full border-transparent overflow-auto;
+			}
+
+			a {
+				@apply underline text-darkpages-link visited:text-darkpages-link-visited;
+			}
+
+			th,
+			td {
+				@apply p-2;
+			}
+
+			th {
+				@apply text-darkpages-heading;
+			}
+
+			thead tr {
+				@apply bg-darkpages-foreground/50!;
+			}
+
+			tr {
+				@apply odd:bg-darkpages-foreground bg-darkpages-foreground/50;
+			}
+
+			h1 {
+				@apply text-3xl mb-5 font-bold;
+			}
+
+			h2 {
+				@apply text-xl mt-5 mb-3 border-t pt-5;
+			}
+
+			hr {
+				@apply border-none;
+			}
+		}
+	}
+}

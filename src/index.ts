@@ -1,2 +1,3 @@
-import "./index.css";
-export { default } from "./MarkdownPage";
+import MarkdownPage from "./MarkdownPage";
+
+export { MarkdownPage };
