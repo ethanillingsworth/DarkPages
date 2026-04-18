@@ -4,51 +4,51 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
 permissions:
     contents: read
     pages: write
     id-token: write
 jobs:
-  
-  build:
+    build:
+        runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [22.x]
+                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-    strategy:
-      matrix:
-        node-version: [22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "npm"
+                  cache-dependency-path: test/package-lock.json
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: test/package-lock.json
+            - name: Install and Build
+              run: |
+                  npm ci
+                  npm run build
+                  cd test
+                  npm ci
+                  npm run build
 
-    - name: Install and Build
-      working-directory: ./test
-      run: |
-        npm ci
-        npm run build
+            # NEW: Setup Pages
+            - name: Setup Pages
+              uses: actions/configure-pages@v4
 
-    # NEW: Setup Pages
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
+            # NEW: Upload the built files (from the test/dist folder)
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: "./test/dist" # Change 'dist' to your actual build folder name
 
-    # NEW: Upload the built files (from the test/dist folder)
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: './test/dist' # Change 'dist' to your actual build folder name
-
-    # NEW: Deploy to GitHub Pages
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+            # NEW: Deploy to GitHub Pages
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
